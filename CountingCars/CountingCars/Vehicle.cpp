@@ -7,14 +7,15 @@ Vehicle::Vehicle(std::vector<Point> contour)
 	
 	this->area = contourArea(contour);
 
-	auto moment = moments(contour, true);
 
 	Point current_center;
 
-	// this->center_point.x = int(moment.m10 / moment.m00);
-	// this->center_point.y = int(moment.m01 / moment.m00);
-	current_center.x = (this->bounding_rectangle.x * 2 + this->bounding_rectangle.width) / 2;
-	current_center.y = (this->bounding_rectangle.y * 2 + this->bounding_rectangle.height) / 2;
+	auto moment = moments(contour, true);
+
+	current_center.x= int(moment.m10 / moment.m00);
+	current_center.y = int(moment.m01 / moment.m00);
+	//current_center.x = (this->bounding_rectangle.x * 2 + this->bounding_rectangle.width) / 2;
+	//current_center.y = (this->bounding_rectangle.y * 2 + this->bounding_rectangle.height) / 2;
 
 	this->center_points.push_back(current_center);
 

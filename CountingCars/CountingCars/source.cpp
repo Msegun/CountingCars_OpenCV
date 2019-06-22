@@ -82,8 +82,10 @@ void match_tracked_to_current_vehicles(std::vector<Vehicle> &tracked_vehicles, s
 
 bool did_vehicle_pass_the_line(Point p1, Vehicle v) {
 	int size = v.center_points.size();
-	if (size > 2)
-		if(v.center_points[size -1].y <= p1.y && v.center_points[size - 2].y > p1.y && !v.counted)
+	if (size >= 2)
+		if (v.center_points[size - 1].y < p1.y && v.center_points[size - 2].y < p1.y)
+			return false;
+		if(v.center_points[size - 1].y <= p1.y && v.center_points[size - 2].y > p1.y && !v.counted && v.disable_counter < 2)
 			return true;
 	else
 		return false;
@@ -98,8 +100,8 @@ void count_cars() {
 	Mat convex_hulls;
 	VideoCapture cap(VIDEO_CLIP);
 	// cap.open(0);
-	cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
-	cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
+	// cap.set(CV_CAP_PROP_FRAME_WIDTH, 640);
+	// cap.set(CV_CAP_PROP_FRAME_HEIGHT, 480);
 	cap >> frame;
 
 	double thresh_value = 30;
@@ -143,9 +145,9 @@ void count_cars() {
 
 					cvui::window(ui_mat, 0, 0, width + 250, heigth + 20, "Clip & Menu");
 					cvui::checkbox(ui_mat, width + 5, 25, "Count Cars", &count);
-					cvui::text(ui_mat, width + 5, 40, std::to_string(amount));
+					cvui::text(ui_mat, width + 5, 45, "Counted Cars:"+std::to_string(amount));
 					cvui::trackbar(ui_mat, width, 70, 250, &min_value, (double)0, (double)5000);
-					cvui::trackbar(ui_mat, width, 100, 250, &thresh_value, (double) 10, (double) 150);
+					cvui::trackbar(ui_mat, width, 130, 250, &thresh_value, (double) 10, (double) 150);
 
 					if (count) {
 
@@ -171,7 +173,7 @@ void count_cars() {
 							convexHull(contours_vector[i], convex_hulls_vector[i]);
 						}
 						// To nie jest konieczne po debbugingu wykasowaæ 
-						drawContours(thresh, convex_hulls_vector, -1, Scalar(255, 255, 255), -1);
+						// drawContours(thresh, convex_hulls_vector, -1, Scalar(255, 255, 255), -1);
 						
 						
 						Point p1(x1, y2);
@@ -219,7 +221,7 @@ void count_cars() {
 		cvui::update();
 
 		imshow(WINDOW_NAME, ui_mat);
-		imshow("thresh", thresh);
+		// imshow("thresh", thresh);
 
 		if (waitKey(30) == 27) {
 			cap.release();
