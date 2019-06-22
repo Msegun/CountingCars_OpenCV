@@ -134,7 +134,7 @@ void count_cars() {
 			cap.open(VIDEO_CLIP);
 			cap >> frame;
 			amount = 0;
-			first_frame = true;
+			first_frame = true; 
 		}
 		else {
 			cap >> next_frame;

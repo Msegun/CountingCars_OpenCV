@@ -46,7 +46,7 @@ void Vehicle::prediction() {
 			this->predicted_center.x = this->center_points.back().x + delta_x;
 			this->predicted_center.y = this->center_points.back().y + delta_y;
 			break;
-
+			 
 		default:
 			// we consider last 3 points
 			sum_x = ((this->center_points[i - 1].x - this->center_points[i - 2].x) * 2) +
