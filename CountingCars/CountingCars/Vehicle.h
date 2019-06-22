@@ -14,6 +14,7 @@ public:
 	Rect bounding_rectangle;
 
 	Vehicle(std::vector<Point> contour);
+	void update_vehicle(Vehicle cv);
 	void prediction();
 
 	bool counted;

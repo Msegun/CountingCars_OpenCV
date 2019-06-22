@@ -25,6 +25,16 @@ Vehicle::Vehicle(std::vector<Point> contour)
 	this->disable_counter = 0;
 }
 
+void Vehicle::update_vehicle(Vehicle cv)
+{
+	this->contour = cv.contour;
+	this->bounding_rectangle = cv.bounding_rectangle;
+	this->center_points.push_back(cv.center_points.back());
+	this->area = cv.area;
+	this->still_tracked = true;
+	this->found_match = true;
+}
+
 void Vehicle::prediction() {
 
 	int delta_x = 0;
